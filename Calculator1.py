@@ -8,20 +8,17 @@ class ParseTree:
     def evaluate(self):
         pass
 
-#note this will not work as it is left recursive
-#ie it will infinitely look on the left side before moving on
 
-class Expression(ParseTree):
+class Expression():
     def __init__(self, tokens):
-        super().__init__(tokens)
-        self.left = Expression(tokens)
+        self.left = Term(tokens)
         #if there are tokens, and the first token is a plus or minus operand
         if tokens and tokens[0] in ("+", "-"):
             #the operand is the first token
             self.op = tokens[0]
             #token consumed
             del tokens[0]
-            self.right = Term(tokens)
+            self.right = Expression(tokens)
 
         else:
             self.right = None
@@ -38,3 +35,9 @@ class Expression(ParseTree):
                 return self.left.evaluate() + self.right.evaluate()
             else:
                 return self.left.evaluate() -self.right.evaluate()
+def Driver():
+    tokens = ['1', "+", "2"]
+    tree1 = Expression(tokens)
+    tree1.evaluate
+
+Driver()
